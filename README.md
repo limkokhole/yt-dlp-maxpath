@@ -24,6 +24,7 @@ A python script and a bash shell command to avoid "File name too long" error whe
 ## Change bash shell init script:
 #### (You need remove all occurrences of `--ffmpeg-location /home/xiaobai/Downloads/ffmpeg-master-latest-linux64-gpl/bin/ffmpeg` if you don't specify ffmpeg, or replace with your ffmpeg path)
 #### (You need change the path /home/xiaobai/Downloads/yt-dlp-maxpath/max_path.py to your downloaded script path)
+#### (You need change yt-dlp to youtube-dl if you don't use yt-dlp)
     xb@dnxb:/tmp$ vim ~/.bash_aliases # Edit bash shell init script 
     
     function youtube() {
