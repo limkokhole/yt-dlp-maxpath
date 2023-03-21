@@ -227,7 +227,7 @@ if __name__ == '__main__':
         #print(sys.argv)
         #print(err_filename)
         if (err_filename.endswith('.part')) and parse(err_filename.split('-')[-3]):
-            pre_immutable = 'BUFFER' + '-' + '-'.join(err_filename.split('-')[-3:]) # BUFFER in case mkv to webm and index 1 to 10000
+            pre_immutable = 'BUFFER' + '-' + '-'.join(err_filename.split('-')[-3:]) # BUFFER in case mkv to webm and fragment index 1 to 999999
             #print(pre_immutable)
             human_fname = err_filename.split('-')[-4]
             #print(human_fname)
