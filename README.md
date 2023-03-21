@@ -1,5 +1,5 @@
 # yt-dlp-maxpath
-A python script and a bash shell command to avoid "File name too long" error when using yt-dlp while trying to use maximum path if possible (with 6 characters "BUFFER" in case many fragmenet indexes and extension increment).
+A python script and a bash shell command to avoid "File name too long" error when using `yt-dlp` or `youtube-dl` while trying to use maximum path if possible (with 6 characters "BUFFER" in case many fragmenet indexes and extension increment).
 
 ## Before:
     xb@dnxb:/tmp$ type -a youtube # Assume I have this bash shell function
