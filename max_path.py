@@ -226,12 +226,24 @@ if __name__ == '__main__':
 
         #print(sys.argv)
         #print(err_filename)
-        if (err_filename.endswith('.part')) and parse(err_filename.split('-')[-3]):
+        #print('llen:' + str(len(err_filename.split('-')[-3])) )
+        #print('llen:' + str(err_filename.split('-')[-3]) )
+        if (err_filename.endswith('.part')) and (len(err_filename.split('-')[-3]) in (6, 8)) and parse(err_filename.split('-')[-3]):
             pre_immutable = 'BUFFER' + '-' + '-'.join(err_filename.split('-')[-3:]) # BUFFER in case mkv to webm and fragment index 1 to 999999
             #print(pre_immutable)
             human_fname = err_filename.split('-')[-4]
             #print(human_fname)
             save_dir = pathlib.Path().resolve()
             yt_max_output_path = get_output_file_path(-1, fs_f_max, pre_immutable, human_fname, save_dir)
-            print(yt_max_output_path)
+            print(yt_max_output_path) # important to send output to bash
             #rreplace(output_path, pre_immutable, '', 1)
+        elif '-NA-' in err_filename:
+            pre_immutable = 'BUFFER' + err_filename.split('-NA-')[-1]
+            human_fname = err_filename.split('-NA-')[0]
+            save_dir = pathlib.Path().resolve()
+            #print('imm: ' + (pre_immutable))
+            #print('hnmae: ' + str(human_fname))
+            yt_max_output_path = get_output_file_path(-1, fs_f_max, pre_immutable, human_fname, save_dir)
+            print(yt_max_output_path) # important to send output to bash
+        else:
+            print('Max Path Failed.') # will be title to download
