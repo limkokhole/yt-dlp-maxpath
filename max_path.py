@@ -192,6 +192,9 @@ for out in py_out:
         err_filename = err_filename.rstrip('"')
         #print(err_filename)
         break
+    else: # included `This video is only available for registered users`
+        print('Max Path Failed.') # will be title to download
+        sys.exit(1)
 
 
 if __name__ == '__main__':
