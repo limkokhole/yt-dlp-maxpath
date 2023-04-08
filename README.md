@@ -1,5 +1,7 @@
 # yt-dlp-maxpath
-A python script and a bash shell command to retry with maximum filename when encounter "File name too long" error with `yt-dlp` or `youtube-dl`. The maximum path have 6 characters buffer in case theoretically many fragmenet indexes and extension increment.
+A python script and a bash shell command to retry with maximum filename when encountering "File name too long" error with `yt-dlp` or `youtube-dl`. The maximum path have 6 characters buffer in case theoretically many fragmenet indexes and extension increment. 
+
+It solves the default options of `--restrict-filenames`, which strip Unicode and require hardcoded `%(title).200B`, needing prior knowledge of the length of video date, ID, and extension to exclude. This script is unlikely to hit the maximum length error (unless the buffer fails) and uses `...` to indicate truncated titles. This script provides a better, though imperfect, solution. Initially, I [modified the source of youtube-dl](https://github.com/limkokhole/youtube-dl-patch), but it was hard to maintain as the source kept changing.
 
 ## Before:
     xb@dnxb:/tmp$ type -a youtube # Assume I have this bash shell function
