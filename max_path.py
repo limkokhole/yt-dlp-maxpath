@@ -192,7 +192,7 @@ for out in py_out:
         err_filename = err_filename.rstrip('"')
         #print(err_filename)
         break
-    else: # included `This video is only available for registered users`
+    else: # included `This video is only available for registered users` and `Unable to download webpage_ urlopen error timed out`
         print('Max Path Failed [e1] ' + sanitize(out)) # will be title to download
         sys.exit(1)
 
