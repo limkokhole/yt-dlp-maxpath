@@ -193,7 +193,7 @@ for out in py_out:
         #print(err_filename)
         break
     else: # included `This video is only available for registered users`
-        print('Max Path Failed [e1] ' + repr(out)) # will be title to download
+        print('Max Path Failed [e1] ' + sanitize(out)) # will be title to download
         sys.exit(1)
 
 
@@ -254,4 +254,4 @@ if __name__ == '__main__':
             yt_max_output_path = get_output_file_path(-1, fs_f_max, pre_immutable, human_fname, save_dir)
             print(yt_max_output_path) # important to send output to bash
         else:
-            print('Max Path Failed [e2] ' + repr(err_filename)) # will be title to download
+            print('Max Path Failed [e2] ' + sanitize(err_filename)) # will be title to download
