@@ -181,21 +181,39 @@ def get_output_file_path(arg_cut, fs_f_max, pre_immutable, human_fname, save_dir
 
 
 py_out = sys.stdin
+found_err_line = False;
 for out in py_out:
+     
     if out.startswith("ERROR: unable to open for writing: [Errno 36] File name too long: './"):
         err_filename = out.strip().replace("ERROR: unable to open for writing: [Errno 36] File name too long: './", '', 1)
         err_filename = err_filename.rstrip("'")
         #print(err_filename)
+        found_err_line = True
         break
     elif out.startswith('ERROR: unable to open for writing: [Errno 36] File name too long: "./'):
         err_filename = out.strip().replace('ERROR: unable to open for writing: [Errno 36] File name too long: "./', '', 1)
         err_filename = err_filename.rstrip('"')
         #print(err_filename)
+        found_err_line = True
+        break
+    elif out.startswith("ERROR: unable to download video data: [Errno 36] File name too long: './"):
+        err_filename = out.strip().replace("ERROR: unable to download video data: [Errno 36] File name too long: './", '', 1)
+        err_filename = err_filename.rstrip("'")
+        #print(err_filename)
+        found_err_line = True
+        break
+    elif out.startswith('ERROR: unable to download video data: [Errno 36] File name too long: "./'):
+        err_filename = out.strip().replace('ERROR: unable to download video data: [Errno 36] File name too long: "./', '', 1)
+        err_filename = err_filename.rstrip('"')
+        found_err_line = True
+        #print(err_filename)
         break
     else: # included `This video is only available for registered users` and `Unable to download webpage_ urlopen error timed out`
-        print('Max Path Failed [e1] ' + sanitize(out)) # will be title to download
-        sys.exit(1)
+        pass
 
+if not found_err_line:
+    print('Max Path Failed [e1] ' + sanitize(out)) # will be title to download
+    sys.exit(1)
 
 if __name__ == '__main__':
     fs_f_max = None
