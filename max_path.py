@@ -182,6 +182,8 @@ def get_output_file_path(arg_cut, fs_f_max, pre_immutable, human_fname, save_dir
 
 py_out = sys.stdin
 found_err_line = False;
+if not py_out:
+    out = ''
 for out in py_out:
      
     if out.startswith("ERROR: unable to open for writing: [Errno 36] File name too long: './"):
