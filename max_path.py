@@ -187,7 +187,9 @@ if not py_out:
 
 error_patterns = [
     "ERROR: unable to open for writing: [Errno 36] File name too long: './",
-    'ERROR: unable to open for writing: [Errno 36] File name too long: "./',
+    "ERROR: unable to open for writing: [Errno 36] Filename too long: './", # new #2
+    'ERROR: unable to open for writing: [Errno 36] File name too long: "./', 
+    'ERROR: unable to open for writing: [Errno 36] Filename too long: "./', # new #2
     "ERROR: unable to download video data: [Errno 36] File name too long: './", # old
     "ERROR: Unable to download video: [Errno 36] File name too long: './", # new #1
     "ERROR: Unable to download video: [Errno 36] Filename too long: './", # new #2
