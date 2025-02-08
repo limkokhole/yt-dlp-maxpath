@@ -184,36 +184,28 @@ py_out = sys.stdin
 found_err_line = False;
 if not py_out:
     out = ''
+
+error_patterns = [
+    "ERROR: unable to open for writing: [Errno 36] File name too long: './",
+    'ERROR: unable to open for writing: [Errno 36] File name too long: "./',
+    "ERROR: unable to download video data: [Errno 36] File name too long: './", # old
+    "ERROR: Unable to download video: [Errno 36] File name too long: './", # new
+    'ERROR: unable to download video data: [Errno 36] File name too long: "./', # old
+    'ERROR: Unable to download video: [Errno 36] File name too long: "./' # new ('Unable' become uppercase and no 'data')
+]
+
 for out in py_out:
-     
-    if out.startswith("ERROR: unable to open for writing: [Errno 36] File name too long: './"):
-        err_filename = out.strip().replace("ERROR: unable to open for writing: [Errno 36] File name too long: './", '', 1)
-        err_filename = err_filename.rstrip("'")
-        #print(err_filename)
-        found_err_line = True
+    for pattern in error_patterns:
+        if out.startswith(pattern):
+            err_filename = out.strip().replace(pattern, '', 1)
+            err_filename = err_filename.rstrip('"' if '"' in pattern else "'")
+            found_err_line = True
+            break
+    if found_err_line:
         break
-    elif out.startswith('ERROR: unable to open for writing: [Errno 36] File name too long: "./'):
-        err_filename = out.strip().replace('ERROR: unable to open for writing: [Errno 36] File name too long: "./', '', 1)
-        err_filename = err_filename.rstrip('"')
-        #print(err_filename)
-        found_err_line = True
-        break
-    elif out.startswith("ERROR: unable to download video data: [Errno 36] File name too long: './"):
-        err_filename = out.strip().replace("ERROR: unable to download video data: [Errno 36] File name too long: './", '', 1)
-        err_filename = err_filename.rstrip("'")
-        #print(err_filename)
-        found_err_line = True
-        break
-    elif out.startswith('ERROR: unable to download video data: [Errno 36] File name too long: "./'):
-        err_filename = out.strip().replace('ERROR: unable to download video data: [Errno 36] File name too long: "./', '', 1)
-        err_filename = err_filename.rstrip('"')
-        found_err_line = True
-        #print(err_filename)
-        break
-    else: # included `This video is only available for registered users` and `Unable to download webpage_ urlopen error timed out`
-        pass
 
 if not found_err_line:
+    # included `This video is only available for registered users` and `Unable to download webpage_ urlopen error timed out`
     print('Max Path Failed [e1] ' + sanitize(out)) # will be title to download
     sys.exit(1)
 
@@ -266,7 +258,7 @@ if __name__ == '__main__':
             print(yt_max_output_path) # important to send output to bash
             #rreplace(output_path, pre_immutable, '', 1)
         elif '-NA-' in err_filename:
-            pre_immutable = 'BUFFER' + err_filename.split('-NA-')[-1]
+            pre_immutable = 'BUFFERpart9999' + err_filename.split('-NA-')[-1]
             human_fname = '-NA-'.join(err_filename.split('-NA-')[:-1])
             save_dir = pathlib.Path().resolve()
             #print('imm: ' + (pre_immutable))
@@ -274,4 +266,13 @@ if __name__ == '__main__':
             yt_max_output_path = get_output_file_path(-1, fs_f_max, pre_immutable, human_fname, save_dir)
             print(yt_max_output_path) # important to send output to bash
         else:
-            print('Max Path Failed [e2] ' + sanitize(err_filename)) # will be title to download
+            pre_immutable = 'BUFFERpart9999' + '-'.join(err_filename.split('-')[-2:]) # e.g. BUFFERpart9999-20250208-id123.mp4.ytdl
+            human_fname = '-'.join(err_filename.split('-')[:-2]) # e.g. './video title'
+            save_dir = pathlib.Path().resolve()
+            yt_max_output_path = get_output_file_path(-1, fs_f_max, pre_immutable, human_fname, save_dir)
+            print(yt_max_output_path)
+
+            #print('Max Path Failed [e2] ' + sanitize(err_filename)) # will be title to download
+
+
+
